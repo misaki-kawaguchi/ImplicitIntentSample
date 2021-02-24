@@ -1,6 +1,8 @@
 package com.misakikawaguchi.implicitintentsample
 
+import android.content.Context
 import android.content.Intent
+import android.location.LocationManager
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -18,6 +20,14 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        // GPS機能を有効にする
+        // LocationManagerオブジェクトを取得
+        val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        // 位置情報が更新された際のリスなオブジェクトを生成
+        val locationListener = GPSLocationListener()
+        // 位置情報の追跡を開始
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0f, locationListener)
     }
 
     // 地図検索ボタンタップ時の処理
