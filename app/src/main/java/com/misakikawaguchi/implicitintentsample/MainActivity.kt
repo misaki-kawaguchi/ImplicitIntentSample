@@ -1,7 +1,9 @@
 package com.misakikawaguchi.implicitintentsample
 
+import android.Manifest
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
@@ -11,6 +13,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.EditText
 import android.widget.TextView
+import androidx.core.app.ActivityCompat
 import java.net.URLEncoder
 
 class MainActivity : AppCompatActivity() {
@@ -29,6 +32,15 @@ class MainActivity : AppCompatActivity() {
         val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
         // 位置情報が更新された際のリスなオブジェクトを生成
         val locationListener = GPSLocationListener()
+
+        // ACCESS_FINE_LOCATIONの許可が降りていない場合
+        if (ActivityCompat.checkSelfPermission(applicationContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // ACCESS_FINE_LOCATIONの許可を求めるダイアログを表示。その際リクエストコードを1000に設定
+            val permissions = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION)
+            ActivityCompat.requestPermissions(this@MainActivity, permissions, 1000)
+            // onCreate()メソッドを終了
+            return
+        }
         // 位置情報の追跡を開始
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0f, locationListener)
     }
