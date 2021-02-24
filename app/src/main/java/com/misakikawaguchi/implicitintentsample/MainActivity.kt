@@ -38,4 +38,17 @@ class MainActivity : AppCompatActivity() {
         // アクティビティを起動
         startActivity(intent)
     }
+
+    // 地図表示ボタンタップ時の処理
+    fun onMapShowCurrentButtonClick(view: View) {
+        // フィールドの緯度と経度の値を元にマップアプリと連携するURI文字列を生成
+        val uriStr = "geo:${_latitude},${_longitude}"
+        // URI文字列からURIオブジェクトを生成
+        val uri = Uri.parse(uriStr)
+
+        // Intentオブジェクトを生成
+        val intent = Intent(Intent.ACTION_VIEW, uri)
+        // アクティビティを起動
+        startActivity(intent)
+    }
 }
