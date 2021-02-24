@@ -45,6 +45,24 @@ class MainActivity : AppCompatActivity() {
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0f, locationListener)
     }
 
+    // パーミッションダイアログに対する処理
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        // ACCESS_FINE_LOCATIONに対するパーミッションダイアログでかつ許可を選択したなら
+        if(requestCode == 1000 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            // LocationManagerオブジェクトを取得
+            val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+            // 位置情報が更新された際のリスなオブジェクトを生成
+            val locationListener = GPSLocationListener()
+
+            // 再度ACCESS_FINE_LOCATIONの許可が降りていないかどうかのチェックをし、降りていないなら処理を中止
+            if(ActivityCompat.checkSelfPermission(applicationContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                return
+            }
+            // 位置情報の追跡を開始
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0f, locationListener)
+        }
+    }
+
     // 地図検索ボタンタップ時の処理
     fun onMapSearchButtonClick(view: View) {
         // 入力欄に入力されたキーワードを取得
