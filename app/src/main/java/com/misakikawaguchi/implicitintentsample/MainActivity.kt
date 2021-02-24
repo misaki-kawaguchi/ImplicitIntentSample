@@ -9,6 +9,12 @@ import android.widget.EditText
 import java.net.URLEncoder
 
 class MainActivity : AppCompatActivity() {
+
+    // 緯度フィールド
+    private var _latitude = 0.0
+    // 経度フィールド
+    private var _longitude = 0.0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
