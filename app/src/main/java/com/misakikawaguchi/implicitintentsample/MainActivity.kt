@@ -2,12 +2,15 @@ package com.misakikawaguchi.implicitintentsample
 
 import android.content.Context
 import android.content.Intent
+import android.location.Location
+import android.location.LocationListener
 import android.location.LocationManager
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.EditText
+import android.widget.TextView
 import java.net.URLEncoder
 
 class MainActivity : AppCompatActivity() {
@@ -60,5 +63,28 @@ class MainActivity : AppCompatActivity() {
         val intent = Intent(Intent.ACTION_VIEW, uri)
         // アクティビティを起動
         startActivity(intent)
+    }
+
+    // ロケーションリスナクラス
+    private inner class GPSLocationListener : LocationListener {
+        override fun onLocationChanged(location: Location) {
+            // 引数のLocationオブジェクトから緯度を取得
+            _latitude = location.latitude
+            // 引数びLocationオブジェクトから経度を取得
+            _longitude = location.longitude
+
+            // 取得した緯度をTextViewに表示
+            val tvLatitude = findViewById<TextView>(R.id.tvLatitude)
+            tvLatitude.text = _latitude.toString()
+            // 取得した経度をTextViewに表示
+            val tvLongitude = findViewById<TextView>(R.id.tvLongitude)
+            tvLongitude.text = _longitude.toString()
+        }
+
+        override fun onStatusChanged(provider: String, status: Int, extras: Bundle?) {}
+
+        override fun onProviderEnabled(provider: String) {}
+
+        override fun onProviderDisabled(provider: String) {}
     }
 }
